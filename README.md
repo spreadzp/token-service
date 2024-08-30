@@ -1,8 +1,4 @@
-To enhance your `README.md` with detailed API descriptions based on the provided NestJS controller and DTOs, you can include a section that lists each endpoint, its purpose, required parameters, request body (if applicable), and response format. Here's how you can update your `README.md`:
-
-```markdown
-# Token Service Backend
-
+# Token Service Backend 
 ## Overview
 
 Welcome to the Token Service Backend, a robust and scalable solution built on the [NestJS](https://nestjs.com/) framework. This backend service is designed to handle token-based operations with efficiency and security, making it an ideal choice for modern web applications.
