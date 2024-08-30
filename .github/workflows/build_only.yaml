@@ -1,0 +1,24 @@
+name: Backend build check
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:   
+      - dev
+      - master
+    paths-ignore:
+      - '.github/workflows/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    env:
+      name: ${GITHUB_REPOSITORY#*/}"-dev"
+      tag: ${GITHUB_SHA}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+           
+      - name: Build docker image
+        run: |
+          docker build . -t ${{ env.name }}:${{ env.tag }}

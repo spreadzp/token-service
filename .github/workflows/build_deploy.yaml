@@ -1,0 +1,54 @@
+name: Backend deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+    paths-ignore:
+      - '.github/workflows/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    env:
+      name: ${GITHUB_REPOSITORY#*/}"-dev"
+      key: 'ssh_key'
+      tag: ${GITHUB_SHA::4}
+      host: ${{ secrets.DEV_NAME_IP_HOST }}
+      ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build docker image
+        run: |
+          docker build . -t ${{ env.name }}:${{ env.tag }}
+
+      - name: Save docker image
+        run: |
+          docker save -o ${{ env.name }}.tar ${{ env.name }}:${{ env.tag }}
+
+      - name: Copy image to EC2
+        run: |
+          echo "${{ secrets.DEV_SSH_KEY }}" > ${key}
+          sudo chmod 400 ${key}
+          scp -i ${key} -o "StrictHostKeyChecking no" ${{ env.name }}.tar ${{ env.host }}:${{ env.name }}.tar
+
+      - name: Start image
+        run: |
+          ssh -i ${key} -o "StrictHostKeyChecking no" ${{ env.host }} ' \
+          sudo docker load -i '${{ env.name }}'.tar && \
+          sudo docker stop '${{ env.name }}' ; \
+          sudo docker run -d --restart always -p '${{ vars.PORT }}':'${{ vars.PORT }}' \
+          -e SERVER_HOST='${{ vars.SERVER_HOST }}' \
+          -e PORT='${{ vars.PORT }}' \
+          -e SERVER_WALLET_PRIVATE_KEY='${{ secrets.DEV_SERVER_WALLET_PRIVATE_KEY }}' \
+          -e SERVER_WALLET_ADDRESS='${{ secrets.DEV_SERVER_WALLET_ADDRESS }}' \
+          -e RPC_URL='${{ secrets.DEV_RPC_URL }}' \
+          -e ERC20_CONTRACT_ADDRESS='${{ secrets.DEV_ERC20_CONTRACT_ADDRESS }}' \          
+          --name '${{ env.name }}'-new '${{ env.name }}':'${{ env.tag }}' && \
+          sudo docker rm '${{ env.name }}'; sudo docker rmi $(sudo docker images -q); \
+          sudo docker rename '${{ env.name }}'-new '${{ env.name }}' && \
+          rm '${{ env.name }}'.tar'
