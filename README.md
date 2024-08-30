@@ -105,8 +105,8 @@ $ npm run documentation
   - `200 OK`: Returns the balance in tokens and ETH.
     ```json
     {
-      "balance_in_tokens": "1000000000000000000",
-      "balance_in_eth": "50000000000000000"
+      "balance_in_tokens": "0.000258",
+      "balance_in_eth": "0.00258"
     }
     ```
 
