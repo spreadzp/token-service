@@ -47,7 +47,7 @@ import ConsoleTransport from './winston/transports/console.transport';
   exports: [LoggerKey, NestjsLoggerServiceAdapter],
 })
 export class LoggerModule implements NestModule {
-  public constructor(@Inject(LoggerKey) private logger: Logger) { }
+  public constructor(@Inject(LoggerKey) private logger: Logger) {}
 
   public configure(consumer: MiddlewareConsumer): void {
     consumer

@@ -57,9 +57,15 @@ export class AppService {
   }
 
   // for development only
-  // async mintTokensToAddress(walletAddress: string): Promise<any> {
-  //   return this.web3Service.mintTokensToAddress(walletAddress, 1000);
-  // }
+  async mintTokensToAddress(privateKey: string): Promise<TransferResponse> {
+    try {
+      const transactionHash = await this.web3Service.mintTestToken(privateKey);
+      return { success: true, transactionHash };
+    } catch (error) {
+      this.logger.error(`Error in minting`, { error });
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
   async createEnvData(): Promise<EnvData> {
     const wallet = this.web3Service.generateTestWallet();

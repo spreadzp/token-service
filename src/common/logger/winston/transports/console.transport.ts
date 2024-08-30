@@ -20,20 +20,24 @@ export default class ConsoleTransport {
           return `${log.timestamp} ${this.colorize(
             color,
             log.level.toUpperCase(),
-          )} ${log.data.sourceClass
+          )} ${
+            log.data.sourceClass
               ? `${this.colorize(LogColors.cyan, `[${log.data.sourceClass}]`)}`
               : ''
-            } ${this.colorize(
-              color,
-              log.message + (log.data.error ? ' - ' + log.data.error : ''),
-            )}${log.data.durationMs !== undefined
+          } ${this.colorize(
+            color,
+            log.message + (log.data.error ? ' - ' + log.data.error : ''),
+          )}${
+            log.data.durationMs !== undefined
               ? this.colorize(color, ' +' + log.data.durationMs + 'ms')
               : ''
-            }${log.data.stack ? this.colorize(color, `  - ${log.data.stack}`) : ''
-            }${log.data.props
+          }${
+            log.data.stack ? this.colorize(color, `  - ${log.data.stack}`) : ''
+          }${
+            log.data.props
               ? `\n  - Props: ${JSON.stringify(log.data.props, null, 4)}`
               : ''
-            }`;
+          }`;
         }),
       ),
     });

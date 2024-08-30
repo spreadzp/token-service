@@ -1,4 +1,4 @@
-To enhance your `README.md` with details about your GitHub Actions workflows and how to set them up, you can include sections that explain the purpose of each workflow, the triggers, and the required secrets and variables. Here's how you can update your `README.md`:
+To enhance your `README.md` with detailed API descriptions based on the provided NestJS controller and DTOs, you can include a section that lists each endpoint, its purpose, required parameters, request body (if applicable), and response format. Here's how you can update your `README.md`:
 
 ```markdown
 # Token Service Backend
@@ -15,6 +15,9 @@ Welcome to the Token Service Backend, a robust and scalable solution built on th
 - **Testing**: Integrated testing capabilities with Jest for unit testing and coverage reports.
 - **Production-Ready**: Optimized for production with a dedicated command for production mode.
 - **Automated Deployment**: Automated Docker Compose deployment using GitHub Actions for seamless updates.
+
+- **Uses chain**  [Get Sepolia ETH in faucet](https://faucet.chainstack.com/sepolia-testnet-faucet)
+- **Deployed ERC20_CONTRACT_ADDRESS**  in [To see it in Sepolia explorer](https://sepolia.etherscan.io/address/0x5351badec2bc03c27727d537ca36820402075a51)
 
 ## Installation
 
@@ -52,11 +55,35 @@ $ npm run test
 # Generate test coverage report
 $ npm run test:cov
 ```
+## Testing in swagger API on http://localhost:3000/api
+Use  NFT contract 
+```bash
+# 1 Call  http://localhost:3000/createEnvData to get new Wallet data
+# If it need to get ETH to your wallet in Sepolia chain go to faucet
+```
+[**Get Sepolia ETH in faucet ->**](https://faucet.chainstack.com/sepolia-testnet-faucet)
+```bash
+# 2 Setup private key to header 
+```
+[**To see here how to do it ->**](https://github.com/user-attachments/assets/949b2623-6e56-4e8c-98a7-ff5e01d9741d)
+```bash
+# 3 Mint test tokens to your wallet by call
+$ http://localhost:3000/mintTokensToAddress
+
+# 4 Test balance on deployed for testing  ERC-20  contract in http://localhost:3000/balance/  
+$ 0x5351baDec2bc03C27727d537Ca36820402075a51
+
+# Use NFT contract to test throw in http://localhost:3000/balance/
+$ 0xcee736355e78407a3EADF4206A927CD4C1C5c9F1
+# 5 Test transfer tokens use in Swagger UI 
+$ http://localhost:3000/transfer
+
+```
 
 ## Documentation
 
 - **API Documentation**: Access the Swagger API documentation at [http://localhost:3000/api](http://localhost:3000/api) once the server is running.
-- **Code Documentation**: Generate and serve detailed code documentation using Compodoc:
+- **Code Documentation**: Generate and serve detailed code documentation using [Compodoc](https://compodoc.app/):
 
 ```bash
 $ npm run documentation
@@ -64,6 +91,98 @@ $ npm run documentation
 ```
 
 ![Documentation Example](https://github.com/user-attachments/assets/7a644bbb-c76b-4ab8-81e3-67d7b2f4d944)
+
+## REST API
+
+### Endpoints
+
+### Setup user private key to Bearer token:
+
+
+#### 1. `/balance/:token_contract_addr/:user_addr` (GET)
+
+- **Description**: Retrieves the balance of tokens and ETH for a given user address and token contract address.
+- **Parameters**:
+  - `token_contract_addr`: The address of the ERC20 token contract.
+  - `user_addr`: The address of the user whose balance is to be retrieved.
+- **Response**:
+  - `200 OK`: Returns the balance in tokens and ETH.
+    ```json
+    {
+      "balance_in_tokens": "1000000000000000000",
+      "balance_in_eth": "50000000000000000"
+    }
+    ```
+
+#### 2. `/transfer` (POST)
+
+- **Description**: Transfers a specified amount of tokens from a user's address to a recipient's address.
+- **Request Body**:
+  - `token_addr`: The address of the ERC20 token contract.
+  - `user_addr`: The address of the user initiating the transfer.
+  - `recipient_addr`: The address of the recipient.
+  - `amount`: The amount of tokens to transfer.
+- **Response**:
+  - `200 OK`: Returns the transaction hash if the transfer is successful.
+    ```json
+    {
+      "success": true,
+      "transactionHash": "0xabc123..."
+    }
+    ```
+
+#### 3. `/mintTokensToAddress` (POST)
+
+- **Description**: Mints a specified amount of test tokens to a given address using a private key stored in the server configuration.
+- **Request Body**:
+  - `walletAddress`: The address to which the tokens will be minted.
+  - `amount`: The amount of tokens to mint.
+- **Response**:
+  - `200 OK`: Returns the transaction hash if the minting is successful.
+    ```json
+    {
+      "success": true,
+      "transactionHash": "0xdef456..."
+    }
+    ```
+
+#### 4. `/createEnvData` (GET)
+
+- **Description**: Retrieves the environment data configured for the server.
+- **Response**:
+  - `200 OK`: Returns the environment data.
+    ```json
+    {
+      "PORT": 3000,
+      "SERVER_HOST": "localhost",
+      "SERVER_WALLET_PRIVATE_KEY": "0x9FCbBc76EDD680b4073345C36a8B6880352363e8",
+      "SERVER_WALLET_ADDRESS": "0x9FCbBc76EDD680b4073345C36a8B6880352363e8",
+      "RPC_URL": "https://mainnet.infura.io/v3/YOUR_PROJECT_ID",
+      "ERC20_CONTRACT_ADDRESS": "0x2859e4544C4bB03966803b044A93563Bd2D0DD4D"
+    }
+    ```
+
+#### 5. `/health` (GET)
+
+- **Description**: Checks the health status of the API server.
+- **Response**:
+  - `200 OK`: Returns the health check result.
+    ```json
+    {
+      "status": "up",
+      "info": {
+        "apiServer": {
+          "status": "up"
+        }
+      },
+      "error": {},
+      "details": {
+        "apiServer": {
+          "status": "up"
+        }
+      }
+    }
+    ```
 
 ## Automated Deployment with GitHub Actions
 
@@ -85,8 +204,8 @@ This workflow is triggered manually or on pushes to the `dev` branch, excluding 
 - `DEV_SSH_KEY`: The SSH key for accessing the development server.
 - `DEV_SERVER_WALLET_PRIVATE_KEY`: The private key for the server wallet.
 - `DEV_SERVER_WALLET_ADDRESS`: The address of the server wallet.
-- `DEV_RPC_URL`: The RPC URL for the development environment.
-- `DEV_ERC20_CONTRACT_ADDRESS`: The ERC20 contract address for the development environment.
+- `DEV_RPC_URL`: The RPC URL for the development environment in Sepolia testnet.
+- `DEV_ERC20_CONTRACT_ADDRESS`: The ERC20 contract address for the development environment in Sepolia testnet.
 - `PORT`: The port number for the server.
 - `SERVER_HOST`: The server host.
 

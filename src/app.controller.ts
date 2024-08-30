@@ -25,7 +25,7 @@ import {
 @ApiTags('Main API')
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) { }
+  constructor(private readonly appService: AppService) {}
 
   @Get('balance/:token_contract_addr/:user_addr')
   @UseGuards(JwtAccessGuard)
@@ -62,5 +62,16 @@ export class AppController {
   })
   createEnvData() {
     return this.appService.createEnvData();
+  }
+
+  @Post('mintTokensToAddress')
+  @UseGuards(JwtAccessGuard)
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully performed minting',
+    type: TransferResponseDto,
+  })
+  mintTokensToAddress(@UserKey() privateKey: string) {
+    return this.appService.mintTokensToAddress(privateKey);
   }
 }

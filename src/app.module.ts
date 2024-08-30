@@ -11,4 +11,4 @@ import { Web3Module } from './providers/web3/web3.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
