@@ -23,6 +23,7 @@ To get started, clone the repository and install the dependencies:
 $ git clone https://github.com/your-repo/token-service-backend.git
 $ cd token-service-backend
 $ npm install
+$ cp .env.example .env
 ```
 
 ## Running the Application
@@ -63,7 +64,7 @@ Use  NFT contract
 ```
 [**To see here how to do it ->**](https://github.com/user-attachments/assets/949b2623-6e56-4e8c-98a7-ff5e01d9741d)
 ```bash
-# 3 Mint test tokens to your wallet by call
+# 3 Mint test tokens in contract 0x5351baDec2bc03C27727d537Ca36820402075a51 to your wallet by call
 $ http://localhost:3000/mintTokensToAddress
 
 # 4 Test balance on deployed for testing  ERC-20  contract in http://localhost:3000/balance/  
@@ -71,6 +72,7 @@ $ 0x5351baDec2bc03C27727d537Ca36820402075a51
 
 # Use NFT contract to test throw in http://localhost:3000/balance/
 $ 0xcee736355e78407a3EADF4206A927CD4C1C5c9F1
+
 # 5 Test transfer tokens use in Swagger UI 
 $ http://localhost:3000/transfer
 

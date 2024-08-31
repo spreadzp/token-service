@@ -94,14 +94,10 @@ export class Web3Service implements OnModuleInit {
       );
 
       const amount = BigInt(10);
-      console.log('🚀 ~ Web3Service ~ amount:', amount);
 
-      // Check balance
       const balanceBigNumber = await erc20Contract.balanceOf(
         userWallet.address,
       );
-      console.log('🚀 ~ Web3Service ~ balanceBigNumber:', balanceBigNumber);
-      console.log('🚀 ~ Web3Service ~ balance:', balanceBigNumber);
 
       if (balanceBigNumber < amount) {
         throw new Error('Insufficient token balance');

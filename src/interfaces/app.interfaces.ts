@@ -1,16 +1,13 @@
-// Interface for the balance response
 export interface BalanceResponse {
-  balance_in_tokens: string; // Assuming the balance is a string in wei
-  balance_in_eth: string; // Assuming the balance is a string in wei
+  balance_in_tokens: string;
+  balance_in_eth: string;
 }
 
-// Interface for the transfer response
 export interface TransferResponse {
   success: boolean;
   transactionHash: string;
 }
 
-// Interface for the environment data response
 export interface EnvData {
   PORT: number;
   SERVER_HOST: string;

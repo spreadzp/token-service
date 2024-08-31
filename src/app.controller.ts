@@ -54,6 +54,7 @@ export class AppController {
     return this.appService.transfer(privateKey, transferDto);
   }
 
+  // for development only
   @Get('createEnvData')
   @ApiResponse({
     status: 200,
@@ -64,6 +65,7 @@ export class AppController {
     return this.appService.createEnvData();
   }
 
+  // for development only
   @Post('mintTokensToAddress')
   @UseGuards(JwtAccessGuard)
   @ApiResponse({

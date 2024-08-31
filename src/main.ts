@@ -4,7 +4,6 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { ServerConfig } from '@config/server-config/server-config.service';
 import NestjsLoggerServiceAdapter from '@common/logger/logger.adapter';
-// import * as session from 'express-session';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -23,7 +22,6 @@ function setupSwagger(app: INestApplication): void {
     .build();
   const document = SwaggerModule.createDocument(app, config, {
     deepScanRoutes: true,
-    //operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,
   });
   const endpointRelativePath = '/api';
 
