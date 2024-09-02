@@ -29,4 +29,7 @@ export class Web3Config {
       process.env.ERC20_CONTRACT_ADDRESS,
     );
   }
+  getExplorerUrl(): string {
+    return this.configService.get('EXPLORER_URL', process.env.EXPLORER_URL);
+  }
 }

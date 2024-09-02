@@ -76,6 +76,7 @@ export class AppService {
       SERVER_WALLET_ADDRESS: wallet.address,
       RPC_URL: 'Use own rpc url',
       ERC20_CONTRACT_ADDRESS: this.web3Service.getDefaultErc20ContractAddress(),
+      EXPLORER_URL: 'https://sepolia.etherscan.io/',
     };
   }
 }

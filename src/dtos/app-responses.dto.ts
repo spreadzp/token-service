@@ -1,21 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-// Response for getBalance method
 export class BalanceResponseDto {
   @ApiProperty({
-    example: '1000000000000000000',
+    example: '0.000125',
     description: 'Balance in tokens (in wei)',
   })
   balance_in_tokens: string;
 
   @ApiProperty({
-    example: '50000000000000000',
+    example: '0.00012578',
     description: 'Balance in ETH (in wei)',
   })
   balance_in_eth: string;
 }
 
-// Response for transfer method
 export class TransferResponseDto {
   @ApiProperty({
     example: true,
@@ -24,13 +22,12 @@ export class TransferResponseDto {
   success: boolean;
 
   @ApiProperty({
-    example: '0xabc123...',
+    example: 'https://sepolia.etherscan.io/tx/0xabc123...',
     description: 'Transaction hash of the transfer',
   })
   transactionHash: string;
 }
 
-// Response for createEnvData method
 export class EnvDataResponseDto {
   @ApiProperty({
     example: 3000,
@@ -64,4 +61,10 @@ export class EnvDataResponseDto {
     description: 'Default ERC20 contract address',
   })
   ERC20_CONTRACT_ADDRESS: string;
+
+  @ApiProperty({
+    example: 'https://sepolia.etherscan.io/',
+    description: 'Explorer URL used by the server',
+  })
+  EXPLORER_URL: string;
 }

@@ -47,7 +47,8 @@ jobs:
           -e SERVER_WALLET_PRIVATE_KEY='${{ secrets.DEV_SERVER_WALLET_PRIVATE_KEY }}' \
           -e SERVER_WALLET_ADDRESS='${{ secrets.DEV_SERVER_WALLET_ADDRESS }}' \
           -e RPC_URL='${{ secrets.DEV_RPC_URL }}' \
-          -e ERC20_CONTRACT_ADDRESS='${{ secrets.DEV_ERC20_CONTRACT_ADDRESS }}' \          
+          -e ERC20_CONTRACT_ADDRESS='${{ secrets.DEV_ERC20_CONTRACT_ADDRESS }}' \      
+          -e EXPLORER_URL='${{ secrets.DEV_EXPLORER_URL }}' \    
           --name '${{ env.name }}'-new '${{ env.name }}':'${{ env.tag }}' && \
           sudo docker rm '${{ env.name }}'; sudo docker rmi $(sudo docker images -q); \
           sudo docker rename '${{ env.name }}'-new '${{ env.name }}' && \

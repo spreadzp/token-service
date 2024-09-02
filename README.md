@@ -52,8 +52,7 @@ $ npm run test
 # Generate test coverage report
 $ npm run test:cov
 ```
-## Testing in swagger API on http://localhost:3000/api
-Use  NFT contract 
+## Testing in swagger API on http://localhost:3000/api 
 ```bash
 # 1 Call  http://localhost:3000/createEnvData to get new Wallet data
 # If it need to get ETH to your wallet in Sepolia chain go to faucet
@@ -125,7 +124,7 @@ $ npm run documentation
     ```json
     {
       "success": true,
-      "transactionHash": "0xabc123..."
+      "transactionHash": "https://sepolia.etherscan.io/tx/0xabc123..."
     }
     ```
 
@@ -140,7 +139,7 @@ $ npm run documentation
     ```json
     {
       "success": true,
-      "transactionHash": "0xdef456..."
+      "transactionHash": "https://sepolia.etherscan.io/tx/0xdef456..."
     }
     ```
 
@@ -156,7 +155,8 @@ $ npm run documentation
       "SERVER_WALLET_PRIVATE_KEY": "0x9FCbBc76EDD680b4073345C36a8B6880352363e8",
       "SERVER_WALLET_ADDRESS": "0x9FCbBc76EDD680b4073345C36a8B6880352363e8",
       "RPC_URL": "https://mainnet.infura.io/v3/YOUR_PROJECT_ID",
-      "ERC20_CONTRACT_ADDRESS": "0x2859e4544C4bB03966803b044A93563Bd2D0DD4D"
+      "ERC20_CONTRACT_ADDRESS": "0x2859e4544C4bB03966803b044A93563Bd2D0DD4D",
+      "EXPLORER_URL": "https://sepolia.etherscan.io/"
     }
     ```
 

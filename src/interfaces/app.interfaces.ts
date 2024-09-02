@@ -15,4 +15,5 @@ export interface EnvData {
   SERVER_WALLET_ADDRESS: string;
   RPC_URL: string;
   ERC20_CONTRACT_ADDRESS: string;
+  EXPLORER_URL: string;
 }

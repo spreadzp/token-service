@@ -68,16 +68,24 @@ export class Web3Service implements OnModuleInit {
   }
 
   async mintTestToken(userPrivateKey: string): Promise<string> {
-    const userWallet = this.createWalletByPrivateKey(userPrivateKey);
-    const erc20Contract = new ethers.Contract(
-      this.web3Config.getErc20ContractAddress,
-      ERC20_ABI.abi,
-      userWallet,
-    );
-    const tx = await erc20Contract.mint();
-    const receipt = await tx.wait();
+    try {
+      const userWallet = this.createWalletByPrivateKey(userPrivateKey);
+      const erc20Contract = new ethers.Contract(
+        this.web3Config.getErc20ContractAddress,
+        ERC20_ABI.abi,
+        userWallet,
+      );
+      const tx = await erc20Contract.mint();
+      const receipt = await tx.wait();
 
-    return receipt.hash;
+      return `${this.web3Config.getExplorerUrl()}tx/${receipt.hash}`;
+    } catch (error) {
+      this.logger.error('mintTestToken', error);
+      throw new HttpException(
+        `Error in minting: ${error.message}`,
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    }
   }
 
   async transfer(
@@ -93,7 +101,7 @@ export class Web3Service implements OnModuleInit {
         userWallet,
       );
 
-      const amount = BigInt(10);
+      const amount = BigInt(transferDto.amount);
 
       const balanceBigNumber = await erc20Contract.balanceOf(
         userWallet.address,
@@ -117,10 +125,13 @@ export class Web3Service implements OnModuleInit {
 
       const receipt = await tx.wait();
 
-      return receipt.hash;
+      return `${this.web3Config.getExplorerUrl()}tx/${receipt.hash}`;
     } catch (error) {
       this.logger.error('transfer', error);
-      throw new Error(`Error in transfer: ${error.message}`);
+      throw new HttpException(
+        `Error in transfer: ${error.message}`,
+        HttpStatus.NOT_ACCEPTABLE,
+      );
     }
   }
 
